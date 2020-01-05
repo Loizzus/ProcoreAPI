@@ -4,6 +4,7 @@ npm install axios
 npm install readline-sync
 */
 
+const open = require('open');
 const fs = require('fs');
 const axios = require('axios');
 
@@ -95,7 +96,7 @@ function getCompanies() {
         .then((res) => {
             //console.log(res.data);
             var resCompanies = res.data.filter(function (item) {
-                return item.name === companyName; // This will need to match your company
+                return item.name === companyName;
             });
             console.log(resCompanies[0].name + "'s company id is " + resCompanies[0].id);
             companyID = resCompanies[0].id;
@@ -204,7 +205,6 @@ try {
         runQueries();
     } else {
         // Opens up the page that you need to sign into to get the authentication code
-        const open = require('open');
         (async () => {
             await open(site_root + auth_endpoint + '?client_id=' + client_id + '&response_type=code&redirect_uri=urn:ietf:wg:oauth:2.0:oob', { app: 'chrome' }); //Update app to match your browser
         })();
@@ -215,8 +215,6 @@ try {
         //console.log('This is the authentication code: ' + AUTH_CODE);
 
         // Make post request to get access token
-        const axios = require('axios')
-        const fs = require('fs');
         axios.post(site_root + token_endpoint, {
             client_id: client_id,
             client_secret: client_secret,
